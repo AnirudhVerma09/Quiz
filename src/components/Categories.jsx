@@ -1,11 +1,15 @@
+// Categories.jsx
 import React, { useState } from "react";
 import { useGetCategoriesQuery } from "../features/quizApi";
 import he from "he";
-import { useNavigate } from "react-router-dom"; // Use react-router-dom
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { startTimer } from "../features/timerSlice";
 
 export default function Categories() {
   const { data, error, isLoading } = useGetCategoriesQuery();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   if (isLoading)
@@ -27,7 +31,7 @@ export default function Categories() {
         className="bg-[#3E3A2A] p-6 rounded-lg shadow-lg"
         onSubmit={(e) => {
           e.preventDefault();
-          // Navigate with the selected category as a query parameter
+          dispatch(startTimer()); // Start the timer when category is selected
           navigate(`/Quiz?category=${selectedCategory}`);
         }}
       >
